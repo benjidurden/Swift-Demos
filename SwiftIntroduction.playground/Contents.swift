@@ -174,17 +174,57 @@ enum squadUnits {
     case franklin
 }
 //Enums can be used in two different ways; Here's the first example.
+//Does a switch statement with an enumerator not have a default? Because it can only accept the values from the enumerator?
+//Actually - I can pass a pseudo default. I'd have a case return nil and use a nil coalescing operator to set the value of the function. That would be the best way - right?
 func yourSquad (is squad: squadUnits) -> String {
     switch squad {
-    case squadUnits.alpha, squadUnits.bravo, sqadUnits.charlie:
+    case squadUnits.alpha, squadUnits.bravo, squadUnits.charlie:
         return "You're in the first battallion!"
-        break
-    case squadUnits.delta, eddie, franklin:
+    case squadUnits.delta, squadUnits.eddie, squadUnits.franklin:
         return "You're in the trenches!"
-        break
-    default:
-        return "Dishonorable discharge - maggot!"
-        break
+    }
+}
+//Enums can also be written in a case like this.
+//Do all enums have to be used in the switch statement? "Switch must be exhaustive"
+//Are conditionals better to use with enums for this reason? Because a default can be fired instead of writing up so many cases
+func enemySquad (is squad: squadUnits) -> String {
+    switch squad {
+    case .charlie, .bravo, .delta:
+            return "Enemy on your six!"
+    case .eddie, .alpha:
+            return "Push forward!"
+    case .franklin:
+            return "Oorah."
     }
 }
 
+enemySquad(is: .eddie)
+yourSquad(is: squadUnits.alpha)
+
+
+
+
+
+//Associated Values can be attached to Enums
+enum frankSong {
+    case wither
+    case nikes(bpm: Int)
+    case wiseman
+    case pyramids
+}
+
+//Extra conditions can be added to the switch statement so the value of the data type being referenced from the Enum is correct, like checking if an enum's case has an integer greater than 10
+//Reminder: Switches evaluate from top to bottom so if an argument meets more than one case - it'll return the first case that works
+func favoriteFrankTrack(is name:frankSong) -> String {
+    switch name {
+    case .wither:
+        return "Witttttheerrr, witherrr"
+    case .wiseman:
+        return "For tarantino!"
+    case .pyramids:
+        return "Floor model TV with the VCR"
+    //let is used to capture the value within the enum, where is used to check
+    case .nikes(let bpm):
+        return "These ladies want"
+    }
+}
